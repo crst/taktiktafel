@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Taktiktafel</title>
+
+    <!-- Font Awesome - http://fortawesome.github.com/Font-Awesome -->
+    <link rel="stylesheet" href="css/font-awesome.css" type="text/css"> 
+
+    <link rel="stylesheet" href="css/common.css" type="text/css"> 
+    <link rel="stylesheet" href="css/tkt.css" type="text/css">
+
+    <script src="js/lib/jquery/jquery-1.8.3.min.js" type="text/javascript"></script>
+    <script src="js/lib/jqueryui/jquery-ui-1.9.2.custom.min.js" type="text/javascript"></script>
+
+    <script src="js/tkt.js" type="text/javascript"></script>
+  </head>
+  <body>
+    <!-- ------------------------------------------------------------------------------------------ -->
+    <!-- Header -->
+    <header>
+      <h1>...:::Taktiktafel:::...</h1>
+    </header>
+
+    <!-- ------------------------------------------------------------------------------------------ -->
+    <!-- Pitch -->
+    <div class="tkt-container">
+      <div class="tkt-canvas">
+        <canvas id="canvas" width="800" height="600"></canvas>
+      </div>
+      <div class="tkt-team tkt-home">
+        <input id="home-first-color" size="7" value="#c60b1e" title="Home team main color"/>
+        <input id="home-second-color" size="7" value="#ffc400" title="Home team second color" />
+      </div>
+      <div class="tkt-team tkt-away">
+        <input id="away-first-color" size="7" value="#ffffff" title="Away team main color" />
+        <input id="away-second-color" size="7" value="#000000" title="Away team second color" />
+      </div>
+      <div class="tkt-pitch"></div>
+    </div>
+
+    <!-- Timeline -->
+    <div class="tkt-timeline tkt-match">
+      <div class="tkt-regular-first-half"></div>
+      <div class="tkt-regular-second-half"></div>
+    </div>
+
+    <!-- ------------------------------------------------------------------------------------------ -->
+    <!-- Controls -->
+    <div class="tkt-controls">
+      <div class="tkt-color-select">
+	<input type="radio" id="tkt-draw-black" name="radio" data-color="black" checked="checked">
+        <label for="tkt-draw-black"><div class="tkt-color-label tkt-color-label-black"></div></label>
+
+	<input type="radio" id="tkt-draw-red" name="radio" data-color="red">
+        <label for="tkt-draw-red"><div class="tkt-color-label tkt-color-label-red"></div></label>
+
+	<input type="radio" id="tkt-draw-blue" data-color="blue" name="radio">
+        <label for="tkt-draw-blue"><div class="tkt-color-label tkt-color-label-blue"></div></label>
+	
+        <input type="radio" id="tkt-draw-yellow" data-color="yellow" name="radio">
+        <label for="tkt-draw-yellow"><div class="tkt-color-label tkt-color-label-yellow"></div></label>
+
+        <input type="radio" id="tkt-draw-erase" data-color="erase" name="radio">
+        <label for="tkt-draw-erase"><div class="tkt-color-label tkt-color-label-erase"></div></label>
+
+        <button class="tkt-color-clear" title="Clear drawings">
+          <i class="icon-bolt"></i> Clear Pitch
+        </button>
+      </div>
+
+      <div class="tkt-actions">
+        <button class="tkt-action-reset" title="Reset player positions">
+          <i class="icon-home"></i> Reset Pitch
+        </button>
+        <button class="tkt-action-remove" title="Remove all saved data">
+          <i class="icon-trash"></i> Remove Saved Data
+        </button>
+        </button>
+      </div>
+    </div>
+
+    <!-- ------------------------------------------------------------------------------------------ -->
+    <!-- Footer -->
+    <footer>
+      <nav>
+        <ul>
+          <li><a href="manual.html" target="_blank" title="Open manual in new window">Manual</a></li>
+        </ul>
+      </nav>
+    </footer>
+
+  </body>
+</html>

@@ -1,0 +1,89 @@
+body {
+    background: url(http://www.foldl.de/2aa6106ef175ab3fef6925c369757e90/gfx/beach.jpg) no-repeat fixed center center;
+    background-size: cover;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+
+    font-family: 'Helvetica';
+    color: #c0c0c0;
+    text-align: center;
+}
+
+body a {
+    color: #c0c0c0;
+    text-decoration: none;
+}
+
+body a:hover {
+    text-decoration: underline;
+}
+
+
+/* ---------------------------------------------------------------------------- */
+/* Elements */
+
+header {
+    text-align: center;
+    font-family: 'Palatino';
+    color: #555555;
+}
+
+header h1 {
+    margin: 0;
+    font-weight: 400;
+    font-size: 48pt;
+}
+
+article {
+    width: 800px;
+    margin: 0 auto 0 auto;
+    border-radius: 10px;
+    color: #c0c0c0;
+    background: #333333;
+    padding: 2em;
+    text-align: left;
+    display: inline-block;
+}
+
+article a {
+    color: #c60b1e;
+    text-decoration: underline;
+}
+
+article a:hover {
+    text-decoration: underline;
+}
+
+
+/* ---------------------------------------------------------------------------- */
+/* Footer */
+
+footer {
+    width: 300px;
+    margin: 1em auto 0 auto;
+    display: block;
+    border-radius: 5px;
+    text-align: center;
+    background: #333333;
+    opacity: 0.9;
+    box-shadow: 2px 2px 20px 2px #333333;
+}
+
+footer nav ul {
+    border-radius: 5px;
+    border-top: 1px solid #c0c0c0;
+    border-bottom: 1px solid #c0c0c0;
+    list-style: none;
+    text-transform: uppercase;
+    padding-top: 4px;
+    padding-bottom: 4px;
+}
+
+footer nav ul li {
+    margin-left: 0em;
+    margin-right: 2em;
+    display: inline;
+    letter-spacing: 4px;
+    font-size: 10pt;
+}

@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <title>Taktiktafel - Manual</title>
+
+    <link rel="stylesheet" href="css/common.css" type="text/css"> 
+    <link rel="stylesheet" href="css/manual.css" type="text/css">
+  </head>
+  <body>
+    <article id="manual">
+      <!-- ------------------------------------------------------------------->
+      <!-- Header -->
+      <h1><a href="index.html">Taktiktafel</a> - A Soccer Chalkboard</h1>
+      <br />
+
+      <p>Taktiktafel is a chalkboard for a soccer match, running in
+      the browser. It is written in JavaScript and stores data locally
+      using <i>Web Storage</i>, therefore it basically works
+      offline.</p>
+
+      <!-- ------------------------------------------------------------------->
+      <!-- Overview -->
+      <section>
+        <hr />
+        <h2>Interface Overview</h2>
+        <img src="http://www.foldl.de/2aa6106ef175ab3fef6925c369757e90/gfx/manual/overview.jpg" title="Taktiktafel overview" />
+
+        The interface can be divided into five different regions that
+        are highlighted in the screenshot on the left:
+        <ol>
+          <li>The <strong style="color: yellow;">pitch</strong>.</li>
+          <li>An area for the <strong style="color: red;">home team</strong>.</li>
+          <li>An area for the <strong style="color: red;">away team</strong>.</li>
+          <li>A <strong style="color: skyblue;">timeline</strong>.</li>
+          <li>A <strong style="color: forestgreen;">controls</strong> bar.</li>
+        </ol>
+        Players can be moved anywhere along the pitch or on one of the
+        team areas. You can connect players with a line, or draw on
+        the pitch. The current state of the players and the pitch can
+        be saved with an entry on the timeline, or loaded from such an
+        existing entry.
+      </section>
+
+      <!-- -------------------------------------------------------------------->
+      <!-- Players -->
+      <section>
+        <hr />
+        <h2>Move Players</h2>
+        <img src="http://www.foldl.de/2aa6106ef175ab3fef6925c369757e90/gfx/manual/player.jpg" title="Players on the pitch" />
+
+        <p>You can move the players along the pitch simply by dragging
+        them with the left mouse button pressed. In the screenshot on
+        the left you can see an example where all players from one
+        team are positioned on the pitch.</p>
+        
+        <p>What you can also see is that the players have "names" (or
+        descriptions) associated with them. If you move the mouse
+        below the circle that represents the player, you can enter
+        these displayed names.</p>
+
+        <p>You can also change the colors of a team by changing the
+        color values in the box at the top of the corresponding team's
+        area.</p>
+      </section>
+
+      <!-- -------------------------------------------------------------------->
+      <!-- Drawing -->
+      <section>
+        <hr />
+        <h2>Draw Things</h2>
+        <img src="http://www.foldl.de/2aa6106ef175ab3fef6925c369757e90/gfx/manual/drawing.jpg" title="Drawing on the pitch" />
+
+        <p>You can draw on the pitch by moving the mouse with the left
+        mouse button pressed. Select the color from one of the boxes
+        on the left side of the "Controls" region.</p>
+
+        <p>Click the "Clear" button to remove all drawings from the
+        pitch, or select the <i>erase</i> color left to the "Clear"
+        button to remove drawings just as if you were drawing.
+      </section>
+
+      <!-- -------------------------------------------------------------------->
+      <!-- Connections -->
+      <section>
+        <hr />
+        <h2>Connect Players</h2>
+        <img src="http://www.foldl.de/2aa6106ef175ab3fef6925c369757e90/gfx/manual/connections.jpg" title="Connecting players" />
+
+        <p>You can connect players with a line. The line is created
+        the first time you right-click on a player, and then follows
+        the mouse until you right-click a second time on a player. If
+        it is a different player, the line will connect both, if it is
+        the same player the line will be removed.</p>
+
+        <p>These connections differ from the drawings, because they
+        follow the movements of the players.</p>
+
+        <p>To remove an existing connection, left-click on the
+        line.</p>
+      </section>
+
+      <!-- -------------------------------------------------------------------->
+      <!-- Saving -->
+      <section>
+        <hr />
+        <h2>Take Snapshots</h2>
+        <img src="http://www.foldl.de/2aa6106ef175ab3fef6925c369757e90/gfx/manual/marker.jpg" title="A number of snapshots" />
+
+        <p>You can left-click anywhere on the timeline to create a
+        snapshot of the current state of the pitch. The snapshot will
+        be represented by a marker "<b>X</b>" on the timeline.</p>
+
+        <p>If you then change something on the pitch (for example by
+        clicking on the "Reset Pitch" button to remove all connections
+        and reset the player positions), you can restore the previous
+        state by left-clicking on the marker that was placed on the
+        timeline.</p>
+
+        <p>A right-click on the marker will remove it, as well as the
+        snapshot associated with it. Clicking the "Remove Saved Data"
+        Button will remove all saved states.</p>
+
+        <p>If your browser supports <i>Web Storage</i> the snapshots
+        will be saved by the browser, so that they are not lost when
+        the browser (or tab) is closed. Beware however that only the
+        snapshots are saved, <strong>not</strong> the current state of
+        the pitch. Also note that <i>Web Storage</i>
+        does <strong>not</strong> work cross-browser. To remove all
+        locally stored data, click the "Remove Saved Data" button.</p>
+
+      </section>
+      
+    </article>
+
+  </body>
+</html>

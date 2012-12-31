@@ -1,0 +1,266 @@
+/* Layout overview
+
+  -----------------------------------------------------
+  | .tkt-team |        .tkt-pitch        |  .tkt-team |
+  | .tkt-home |        .tkt-canvas       |  .tkt-away |
+  |           |                          |            |
+  |           |                          |            |
+  |           |                          |            |
+  |---------------------------------------------------|
+  |                   .tkt-timeline                   |
+  | .tkt-regular-first-half  .tkt-regular-second-half |
+  |---------------------------------------------------|
+  |                   .tkt-controls                   |
+  | .tkt-color-select                    .tkt-actions |
+  -----------------------------------------------------
+*/
+
+
+/* -------------------------------------------------------------------------- */
+/* Teams and Pitch */
+
+/* Container <div> for home/away teams and pitch. */
+.tkt-container {
+    width: 1200px;
+    height: 600px;
+    margin: 0 auto 0 auto;
+    padding: 0;
+    background: #333333;
+    opacity: 0.9;
+    border-radius: 10px;
+    box-shadow: 2px 2px 20px 2px #333333;
+}
+
+/* Canvas above the pitch to draw on. */
+.tkt-canvas {
+    position: absolute;
+    left: 50%;
+    margin-left: -400px;
+}
+
+/* Background SVG for the pitch. */
+.tkt-pitch {
+    z-index: 10;
+    padding: 0;
+    margin: 0 auto 0 auto;
+    width: 800px;
+    height: 600px;
+
+    background: green;
+    background-image: url(../gfx/pitch.svg);
+    background-size: cover;
+}
+
+/* Initial position for players. */
+.tkt-team {
+    padding: 0;
+    width: 200px;
+    height: 600px;
+}
+
+/* Input field for team colors. */
+.tkt-team input {
+    border: 1px solid #c0c0c0;
+    background: rgba(0, 0, 0, 0);
+    color: #f0f0f0;
+    outline: none;
+    opacity: 0.5;
+}
+
+/* Sides for the teams. */
+.tkt-home {
+    float: left;
+}
+
+.tkt-away {
+    float: right;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Player */
+
+/* "Container" for the player. */
+.tkt-player-node {
+    z-index: 200;
+    position: absolute;
+    padding: 0.25em;
+    cursor: pointer;
+}
+
+.tkt-player-node:hover {
+    background: rgba(255, 255, 255, 0.5);
+}
+
+/* Circle that represents the player. */
+.tkt-player {
+    opacity: 1;
+    position: relative;
+    margin: 0 auto 0 auto;
+    width: 20px;
+    height: 20px;
+    border: 2px solid;
+    border-radius: 20px;
+    background-size: cover;
+}
+
+/* Input field for the player name. */
+.tkt-player-node input {
+    background: rgba(0, 0, 0, 0);
+    border: 0px;
+    text-align: center;
+    outline: none;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+/* Display of the player name. */
+.tkt-player-name {
+    font-size: 11pt;
+    font-weight: 400;
+
+    width: 100%;
+    text-align: center;
+    color: black;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Timeline */
+
+.tkt-timeline {
+    margin: 1em auto 0 auto;
+    height: 2.5em;
+    background: #333333;
+    opacity: 0.9;
+    border-radius: 10px;
+    box-shadow: 2px 2px 20px 2px #333333;
+}
+
+/* Container. */
+.tkt-match {
+    width: 1200px;
+}
+
+/* Bars representing the playing time. */
+.tkt-regular-first-half,
+.tkt-regular-second-half {
+    position: relative;
+    margin-top: 1em;
+    margin-left: 5%;
+    width: 42.5%;
+    height: 0.33em;
+    background: green;
+    float: left;
+}
+
+.tkt-regular-first-half:hover,
+.tkt-regular-second-half:hover {
+    cursor: pointer;
+}
+
+/* Marker for saved states. */
+.tkt-marker {
+    position: absolute;
+    font-size: 20px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.tkt-marker:hover {
+    text-decoration: underline;
+}
+
+
+/* -------------------------------------------------------------------------- */
+/* Controls */
+
+/* Container. */
+.tkt-controls {
+    width: 800px;
+    height: 2.5em;
+    margin: 1em auto 0 auto;
+    background: #333333;
+    padding: 1em;
+    border-radius: 10px;
+    opacity: 0.9;
+    box-shadow: 2px 2px 20px 2px #333333;
+}
+
+/* Drawing colors. */
+.tkt-color-select {
+    margin-top: 0;
+    float: left;
+}
+
+.tkt-color-select input[type=radio] {
+    display: none;
+}
+
+.tkt-color-select input[type=radio] + label {
+    float: left;
+    border: 2px solid black;
+}
+
+.tkt-color-select input[type=radio]:checked + label {
+    float: left;
+    border: 2px solid white;
+}
+
+.tkt-color-label {
+    float: left;
+    width: 30px;
+    height: 30px;
+    opacity: 0.75;
+    cursor: pointer;
+}
+
+/* Colors. */
+.tkt-color-label-black {
+    background: black;
+}
+
+.tkt-color-label-red {
+    background: red;
+}
+
+.tkt-color-label-blue {
+    background: blue;
+}
+
+.tkt-color-label-yellow {
+    background: yellow;
+}
+
+.tkt-color-label-erase {
+    background: #555555;
+}
+
+
+/* Buttons. */
+.tkt-controls button {
+    margin-top: 1px;
+    height: 31px;
+    background: #555555;
+    color: #c0c0c0;
+    font-weight: bold;
+    border: 1px solid #777777;
+    border-radius: 4px;
+    box-shadow: 1px 1px 1px 0px #777777;
+    cursor: pointer;
+}
+
+.tkt-controls button:active {
+    box-shadow: 0px 0px 0px 0px #ffffff;
+}
+
+.tkt-controls button:focus {
+    outline: none;
+}
+
+/* Actions. */
+.tkt-actions {
+    float: right;
+}
+
+.tkt-outside-pitch {
+    opacity: 0.5;
+}
