@@ -114,8 +114,8 @@ TKT.make_player = function () {
   // player isn't hovered anymore, so we simply set the focus to the
   // clear button.
   $('.tkt-player-node').hover(
-    function () { },
-    function () { $('.tkt-color-clear').focus(); }
+    function () { return 0; },
+    function () { $('.tkt-color-clear').focus(); return 0; }
   );
 
   TKT.position_player();
