@@ -27,6 +27,8 @@ header {
     text-align: center;
     font-family: 'Palatino';
     color: #555555;
+    text-shadow: 0px 0px 3px #333333,
+                 1px 1px 6px rgba(0, 0, 0, 0.75);
 }
 
 header h1 {
@@ -48,7 +50,6 @@ article {
 
 article a {
     color: #c60b1e;
-    text-decoration: underline;
 }
 
 article a:hover {
