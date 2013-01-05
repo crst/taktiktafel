@@ -80,9 +80,7 @@ TKT.reset = function () {
 
 
 TKT.remove = function () {
-  if ('localStorage' in window && window.localStorage !== null) {
-    window.localStorage.clear();
-  }
+  if (TKT.has_localstorage()) { window.localStorage.clear(); }
   $('.tkt-marker').remove();
   TKT.marker = {};
   TKT.storage = {};
@@ -124,18 +122,22 @@ TKT.make_player = function () {
 
 // Set players to their inital positions.
 TKT.position_player = function () {
+  // Functions to calculate the player position.
+  var l = function (i, off) { return (i % 2) * ($('.tkt-team').width() / 2) + off.left + 15; };
+  var t = function (i, off) { return (i * 2 * $('.tkt-player').height()) + off.top + 30; };
+
   // Home team.
   var off = $('.tkt-home').offset();
   $('.tkt-player-home').each(function () {
     var i = parseInt($(this).attr('data-number'), 10);
-    $(this).css({left: (i % 2) * 90 + off.left + 30, top: i * 50 + off.top - 10});
+    $(this).css({left: l(i, off), top: t(i, off)});
   });
 
   // Away team.
   off = $('.tkt-away').offset();
   $('.tkt-player-away').each(function () {
     var i = parseInt($(this).attr('data-number'), 10);
-    $(this).css({left: ((i - 1) % 2) * 90 + off.left + 30, top: i * 50 + off.top - 10});
+    $(this).css({left: l(i - 1, off), top: t(i, off)});
   });
 
   // Both teams.
@@ -204,7 +206,7 @@ TKT.bind_draw_events = function () {
 // Erase all drawings.
 TKT.clear = function () {
   TKT.ctx.save();
-  TKT.ctx.clearRect(0, 0, 800, 600);
+  TKT.ctx.clearRect(0, 0, $('.tkt-canvas').width(), $('.tkt-canvas').height());
   TKT.ctx.restore();
   TKT.pixel = {};
 };
@@ -214,11 +216,9 @@ TKT.clear = function () {
 TKT.draw_point = function (x, y, color) {
   TKT.ctx.save();
   var image_data = TKT.ctx.createImageData(1, 1);
-  if (color !== 'erase') {
-    image_data.data[0] = color[0];
-    image_data.data[1] = color[1];
-    image_data.data[2] = color[2];
-  }
+  image_data.data[0] = color[0];
+  image_data.data[1] = color[1];
+  image_data.data[2] = color[2];
   image_data.data[3] = (color === 'erase') ? 0 : 255;
   TKT.ctx.putImageData(image_data, x, y);
   TKT.ctx.restore();
@@ -244,7 +244,7 @@ TKT.draw_point = function (x, y, color) {
 
 // Remove all current connections and initialize empty maps.
 TKT.init_connections = function () {
-  $('.connection').remove();
+  $('.tkt-connection').remove();
   TKT.connections = {};
   $('.tkt-player-node').each(function () {
     TKT.connections[$(this).attr('data-id')] = {};
@@ -255,7 +255,7 @@ TKT.init_connections = function () {
 // players are moved.
 TKT.bind_connection_events = function () {
   var connect, line;
-  
+
   $('.tkt-player-node').off('contextmenu').bind('contextmenu', function (e) {
     e.preventDefault();
 
@@ -282,12 +282,11 @@ TKT.bind_connection_events = function () {
       TKT.is_on_pitch($(this));
       TKT.save_player_position($(this));
       var lines = TKT.connections[$(this).attr('data-id')];
-      for (var k in lines) {
-        var item = lines[k];
-        var from = TKT.center_of_player(item.from);
-        var to = TKT.center_of_player(item.to);
-        TKT.shape_line(item.line, from.x, from.y, to.x, to.y);
-      }
+      _.each(lines, function (v) {
+        var from = TKT.center_of_player(v.from);
+        var to = TKT.center_of_player(v.to);
+        TKT.shape_line(v.line, from.x, from.y, to.x, to.y);
+      });
     }
   });
 };
@@ -315,14 +314,13 @@ TKT.connect_player = function (f, t, line) {
 
 // Position all connections.
 TKT.set_connection_positions = function () {
-  for (var p in TKT.connections) {
-    for (var l in TKT.connections[p]) {
-      var item = TKT.connections[p][l];
+  _.each(TKT.connections, function (v) {
+    _.each(v, function (item) {
       var from = TKT.center_of_player(item.from);
       var to = TKT.center_of_player(item.to);
       TKT.shape_line(item.line, from.x, from.y, to.x, to.y);
-    }
-  }
+    });
+  });
 };
 
 // Return the absolute position of the center of player 'p'.
@@ -333,24 +331,10 @@ TKT.center_of_player = function (p) {
   return {x: fx, y: fy};
 };
 
-// Create a new line element.
+// Create a new line element and add it to the page.
 TKT.make_line = function () {
-  var line = $('<div class="connection"></div>');
+  var line = $('<div class="tkt-connection"></div>');
   $('body').prepend(line);
-  // For some reason the CSS rules do not apply when placed in the .css file.
-  line.css({'position': 'absolute',
-            'width': 2,
-            'background-color': '#333333',
-            'opacity': 0.25,
-            'z-index': 20,
-            'transform-origin': 'top left',
-            '-webkit-transform-origin': 'top left',
-            '-moz-transform-origin': 'top left',
-            '-o-transform-origin': 'top left',
-            '-ms-transform-origin': 'top left'});
-  line.hover(function () { $(this).css('opacity', 0.1); },
-             function () { $(this).css('opacity', 0.25); });
-  
   return line;
 };
 
@@ -379,7 +363,7 @@ TKT.save_id = 0;
 // If the browser has support for localStorage, we store all saved
 // states there.
 TKT.store = function () {
-  if ('localStorage' in window && window.localStorage !== null) {
+  if (TKT.has_localstorage()) {
     window.localStorage.data = JSON.stringify(TKT.storage);
     window.localStorage.marker = JSON.stringify(TKT.marker);
     window.localStorage.id = JSON.stringify(TKT.save_id);
@@ -389,15 +373,11 @@ TKT.store = function () {
 // We restore all saved states from localStorage when the site is
 // loaded.
 TKT.restore = function () {
-  if ('localStorage' in window && window.localStorage !== null) {
-    if (window.localStorage.data) {
-      TKT.storage = JSON.parse(window.localStorage.data);
-      TKT.marker = JSON.parse(window.localStorage.marker);
-      for (var k in TKT.marker) {
-        TKT.add_marker(k, TKT.marker[k]);
-      }
-      TKT.save_id = JSON.parse(window.localStorage.id);
-    }
+  if (TKT.has_localstorage() && window.localStorage.data) {
+    TKT.storage = JSON.parse(window.localStorage.data);
+    TKT.marker = JSON.parse(window.localStorage.marker);
+    _.each(TKT.marker, function (v, k) { TKT.add_marker(k, v); });
+    TKT.save_id = JSON.parse(window.localStorage.id);
   }
 };
 
@@ -419,13 +399,13 @@ TKT.save_state = function (x) {
     };
   });
 
+
   // Save connections.
-  var con = [];
-  for (var f in TKT.connections) {
-    for (var t in TKT.connections[f]) {
-      con.push({'fid': f, 'tid': t});
-    }
-  }
+  var con = _.reduce(TKT.connections, function (m, v, f) {
+    _.each(v, function (w, t) { m.push({'fid': f, 'tid': t}); });
+    return m;
+  }, []);
+
 
   // Save drawings.
   var pix = $.extend({}, TKT.pixel);
@@ -444,15 +424,16 @@ TKT.save_state = function (x) {
     'pixel': pix,
     'colors': col
   };
+  // Sync with localStorage.
   TKT.store();
 };
 
-// Add a marker to load the state 'id' at timeline position 'x'.
-TKT.add_marker = function (id, x) {
-  TKT.marker[id] = x;
+// Add a marker to load the state 'id' at timeline position 'x_pos'.
+TKT.add_marker = function (id, x_pos) {
+  TKT.marker[id] = x_pos;
 
   var off = $('.tkt-timeline').offset();
-  var rel_x = x - off.left;
+  var rel_x = x_pos - off.left;
   var html = ['<div class="tkt-marker"',
               'data-rel-x="', rel_x, '"',
               'data-key="', id, '">',
@@ -462,7 +443,8 @@ TKT.add_marker = function (id, x) {
   $('body').append(marker);
   marker.click(function () { TKT.load_state(id); });
 
-  marker.css({'left': x, 'top': off.top + 7});
+  marker.css({'left': x_pos,
+              'top': off.top + ($('.tkt-timeline').height() / 2) - (marker.height() / 2)});
   marker.bind('contextmenu', function (e) {
     e.preventDefault();
     delete TKT.marker[id];
@@ -474,9 +456,9 @@ TKT.add_marker = function (id, x) {
 
 TKT.set_marker_positions = function () {
   var off = $('.tkt-timeline').offset();
-  $('.marker').each(function () {
+  $('.tkt-marker').each(function () {
     $(this).css({'left': off.left + parseInt($(this).attr('data-rel-x'), 10),
-                 'top': off.top + 7});
+                 'top': off.top + ($('.tkt-timeline').height() / 2) - ($(this).height() / 2)});
   });
 };
 
@@ -485,31 +467,27 @@ TKT.load_state = function (key) {
   var data = TKT.storage[key];
 
   // Load player positions.
-  for (var k in data.players) {
-    var p = data.players[k];
+  _.each(data.players, function (v, k) {
     var node = $('.tkt-player-node[data-id="' + k + '"]');
-    node.attr('data-left', p.left).attr('data-top', p.top);
-    node.find('input').val(p.name);
+    node.attr('data-left', v.left).attr('data-top', v.top).find('input').val(v.name);
     TKT.set_player_position(node);
-  }
+  });
 
   // Load connections.
   TKT.init_connections();
-  for (var i = 0; i < data.connections.length; i++) {
-    var item = data.connections[i];
-    var f = $('.tkt-player-node[data-id="' + item.fid + '"]');
-    var t = $('.tkt-player-node[data-id="' + item.tid + '"]');
-    TKT.connect_player(f, t, TKT.make_line());
-  }
+  _.each(data.connections, function (v) {
+    TKT.connect_player($('.tkt-player-node[data-id="' + v.fid + '"]'),
+                       $('.tkt-player-node[data-id="' + v.tid + '"]'),
+                       TKT.make_line());
+  });
   TKT.set_connection_positions();
 
   // Load drawings.
   TKT.clear();
-  for (var k in data.pixel) {
-    var xy = k.split('-');
-    var x = parseInt(xy[0], 10), y = parseInt(xy[1], 10);
-    TKT.draw_point(x, y, data.pixel[k]);
-  }
+  _.each(data.pixel, function (v, k) {
+    var c = _.map(k.split('-'), function (n) { return parseInt(n, 10); });
+    TKT.draw_point(c[0], c[1], data.pixel[k]);
+  });
 
   // Load team colors.
   $('#home-first-color').val(data.colors['home-fst']);
@@ -540,4 +518,8 @@ TKT.rotate = function (node, deg) {
             '-moz-transform'   : 'rotate(' + deg + 'deg)',
             '-o-transform'     : 'rotate(' + deg + 'deg)',
             '-ms-transform'    : 'rotate(' + deg + 'deg)'});
+};
+
+TKT.has_localstorage = function () {
+  return 'localStorage' in window && window.localStorage !== null;
 };

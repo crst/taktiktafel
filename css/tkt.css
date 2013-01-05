@@ -123,6 +123,24 @@
     color: black;
 }
 
+/* Connections between players. */
+.tkt-connection {
+    z-index: 20;
+    position: absolute;
+    width: 2px;
+    background-color: #333333;
+    opacity: 0.25;
+    transform-origin: 0 0;
+    -webkit-transform-origin: 0 0;
+    -moz-transform-origin: 0 0;
+    -o-transform-origin: 0 0;
+    -ms-transform-origin: 0 0;
+}
+
+.tkt-connection:hover {
+    opacity: 0.1;
+}
+
 /* -------------------------------------------------------------------------- */
 /* Timeline */
 
