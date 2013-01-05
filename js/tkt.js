@@ -499,9 +499,7 @@ TKT.load_state = function (key) {
     var item = data.connections[i];
     var f = $('.tkt-player-node[data-id="' + item.fid + '"]');
     var t = $('.tkt-player-node[data-id="' + item.tid + '"]');
-    var line = TKT.make_line();
-    TKT.connections[item.fid][item.tid] = {'line': line, 'from': f, 'to': t};
-    TKT.connections[item.tid][item.fid] = {'line': line, 'from': t, 'to': f};
+    TKT.connect_player(f, t, TKT.make_line());
   }
   TKT.set_connection_positions();
 
